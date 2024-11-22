@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { increaseCounter, decreaseCounter } from './redux/action/counterAction';
-import MyComponents from './components/MyComponents'; 
+import MyComponent from './components/MyComponent'; 
 
 const App = () => {
   const count = useSelector(state => state.counter.count);
@@ -11,10 +11,10 @@ const App = () => {
   return (
     <div>
       Trần Thái Ân &amp; Bin
-      <MyComponents>
+      <MyComponent>
 
         
-      </MyComponents>
+      </MyComponent>
     </div>
     // <div className="App">
     //   <header className="App-header">
