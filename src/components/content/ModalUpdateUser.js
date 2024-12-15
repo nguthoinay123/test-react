@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { FcPlus } from "react-icons/fc";
 import { toast } from 'react-toastify';
-import { postCreateNewUser } from '../../services/apiService';
-import _, { update } from "lodash";
+import { postCreateNewUser,putUpdateUser } from '../../services/apiService';
+import _ from "lodash";
 
 const ModalUpdateUser=(props)=> {
   const {show, setShow, dataUpdate}=props;
@@ -16,6 +16,7 @@ const ModalUpdateUser=(props)=> {
      setRole("USER");
      setImage("");
      setPreviewImage("");
+     props.resetUpdateData();
     }
   ;
   const [email, setEmail]=useState("");
@@ -46,15 +47,9 @@ const ModalUpdateUser=(props)=> {
       // setPreviewImage("")
     }
   }
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
+
   const handleSubmitCreateUser =async ()=>{
-    const isValidEmail=validateEmail(email);
+    const isValidEmail=email;
     if(!isValidEmail){
       toast.error('invalid email')
       // toast.success("ss")
@@ -62,12 +57,10 @@ const ModalUpdateUser=(props)=> {
 
       return ;
     }
-    if(!password){
-      toast.error('invalid password')
-    }
+ 
     
 
-    let data = await postCreateNewUser(email, password, username, role, image)
+    let data = await putUpdateUser(dataUpdate.id, username, role, image)
     if(data && data.EC===0){
       toast.success(data.EM)
       handleClose()
@@ -92,11 +85,11 @@ const ModalUpdateUser=(props)=> {
                 <label className="form-label">Email</label>
                 <input type="email" className="form-control" value={email} onChange={(event)=>setEmail(event.target.value)} disabled/>
             </div>
-            <div className="col-md-6">
+            {/* <div className="col-md-6">
                 <label className="form-label">Password</label>
                 <input type="password" className="form-control" value={password} onChange={(event)=>setPassword(event.target.value)} disabled/>
             </div>
-            
+             */}
             <div className="col-md-6">
                 <label className="form-label">Username</label>
                 <input type="text" className="form-control" value={username} onChange={(event)=>setUsername(event.target.value)}/>
